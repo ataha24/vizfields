@@ -540,6 +540,266 @@ html, body, #root {
 .arrow { color: var(--text-dim); }
 .deficit-name { color: var(--text-mid); flex: 1; }
 
+/* ── Explore panel sub-components ──────────────────────────── */
+
+.rp-explore {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.rp-pattern-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 9px 11px;
+  margin: 10px 10px 0;
+  flex-shrink: 0;
+}
+
+.rp-pattern-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: pulse 2s infinite;
+}
+
+.rp-pattern-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.rp-structure-label {
+  font-size: 9.5px;
+  opacity: 0.65;
+  margin-top: 2px;
+}
+
+.rp-macula-pill {
+  margin-left: auto;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.rp-macula-pill.spared   { background: rgba(68,204,136,0.1); border: 1px solid rgba(68,204,136,0.3); color: var(--green); }
+.rp-macula-pill.involved { background: rgba(255,100,100,0.08); border: 1px solid rgba(255,100,100,0.2); color: #ff8888; }
+
+.rp-congruence {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 5px 12px;
+  flex-shrink: 0;
+}
+.rp-congruence-label {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.rp-congruence-value {
+  font-size: 10.5px;
+  color: var(--text-mid);
+  font-style: italic;
+}
+
+.rp-subtabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+  padding: 0 6px;
+  flex-shrink: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.rp-subtabs::-webkit-scrollbar { display: none; }
+
+.rp-subtab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  color: var(--text-dim);
+  font-family: inherit;
+  font-size: 10.5px;
+  font-weight: 500;
+  padding: 7px 9px;
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+.rp-subtab:hover { color: var(--text-hi); }
+.rp-subtab.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+
+.rp-tab-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+  min-height: 0;
+}
+.rp-tab-content::-webkit-scrollbar { width: 3px; }
+.rp-tab-content::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 2px; }
+
+.rp-section {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rp-field-label {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.rp-callout {
+  font-size: 11.5px;
+  line-height: 1.65;
+  padding: 8px 10px;
+  border-radius: 0 6px 6px 0;
+  border-left: 2.5px solid;
+}
+.rp-callout.amber {
+  color: var(--text-hi);
+  background: rgba(240,160,64,0.05);
+  border-color: var(--amber);
+}
+
+.rp-body-text {
+  font-size: 11px;
+  color: var(--text-mid);
+  line-height: 1.72;
+}
+
+/* Vascular */
+.rp-artery-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,80,80,0.07);
+  border: 1px solid rgba(255,80,80,0.2);
+  border-radius: 7px;
+  padding: 7px 10px;
+}
+.rp-artery-icon { font-size: 14px; }
+.rp-artery-name { font-size: 11.5px; font-weight: 600; color: #ff9999; line-height: 1.3; }
+
+/* Signs */
+.rp-sign-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.rp-sign-row:last-of-type { border-bottom: none; }
+.rp-sign-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+.rp-sign-finding  { font-size: 11.5px; font-weight: 600; color: var(--text-hi); }
+.rp-sign-mechanism { font-size: 10.5px; color: var(--text-mid); line-height: 1.55; margin-top: 2px; }
+
+.rp-stats-block {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.rp-stat-row {
+  display: flex;
+  gap: 6px;
+  font-size: 10.5px;
+  color: var(--text-mid);
+  padding: 2px 0;
+  line-height: 1.5;
+}
+.rp-stat-bullet { color: var(--cyan); flex-shrink: 0; }
+
+/* Differentials */
+.rp-ddx-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.rp-ddx-row:last-child { border-bottom: none; }
+.rp-freq-badge {
+  font-size: 8.5px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.rp-ddx-name { font-size: 11.5px; font-weight: 600; color: var(--text-hi); }
+.rp-ddx-note { font-size: 10px; color: var(--text-mid); line-height: 1.55; margin-top: 2px; }
+
+/* Pearls */
+.rp-pearl-box {
+  display: flex;
+  gap: 10px;
+  background: rgba(0,212,255,0.05);
+  border: 1px solid rgba(0,212,255,0.2);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.rp-pearl-icon { font-size: 16px; flex-shrink: 0; }
+.rp-pearl-text { font-size: 11.5px; color: var(--text-hi); line-height: 1.65; }
+
+.rp-special-topic {
+  background: rgba(136,136,255,0.05);
+  border: 1px solid rgba(136,136,255,0.2);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-top: 6px;
+}
+.rp-special-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #aaaaff;
+  margin-bottom: 6px;
+}
+.rp-special-body {
+  font-size: 10.5px;
+  color: var(--text-mid);
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+.rp-localization {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.rp-localization-text {
+  font-size: 10.5px;
+  color: var(--text-mid);
+  line-height: 1.65;
+  background: rgba(58,154,255,0.04);
+  border: 1px solid rgba(58,154,255,0.12);
+  border-radius: 6px;
+  padding: 7px 9px;
+}
+
 /* ── Cases ──────────────────────────────────────────────────── */
 .cases-content {
   flex: 1;
