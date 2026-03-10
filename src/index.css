@@ -269,6 +269,48 @@ html, body, #root {
   background: rgba(0, 200, 168, 0.15);
 }
 
+.view-mode-btn {
+  background: rgba(58, 154, 255, 0.08);
+  border: 1px solid rgba(58, 154, 255, 0.2);
+  color: var(--blue);
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  margin-left: auto;
+}
+.view-mode-btn:hover {
+  background: rgba(58, 154, 255, 0.15);
+}
+
+.rw-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.rw-view-wrap {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.rw-canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .perim-complete {
   font-size: 10px;
   color: var(--teal);

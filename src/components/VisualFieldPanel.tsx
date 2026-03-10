@@ -8,6 +8,7 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
 import type { VisualFieldResult, VFHoverState } from '../types';
 import { GRID_SIZE } from '../engine/lesionEngine';
+import { RealWorldView } from './RealWorldView';
 
 interface Props {
   vfResult: VisualFieldResult;
@@ -63,7 +64,7 @@ function drawField(
   perimetryPoints: Array<{ vfx: number; vfy: number; seen: boolean; revealed: boolean }> | null,
 ) {
   const cx = sz / 2, cy = sz / 2;
-  const r  = sz * 0.435;
+  const r = sz * 0.435;
   const CELL = (r * 2) / GRID_SIZE;
 
   // Background
@@ -125,7 +126,7 @@ function drawField(
       } else {
         // Normal field is white; scotoma is dark gray
         const brightness = Math.round(230 - intens * 200);
-        raw[idx]     = brightness;
+        raw[idx] = brightness;
         raw[idx + 1] = brightness;
         raw[idx + 2] = brightness + Math.round((1 - intens) * 5); // slight blue tint to healthy field
         raw[idx + 3] = 255;
@@ -283,14 +284,14 @@ function drawField(
   ctx.fillText('S', cx, cy - r - 6);
   ctx.fillText('I', cx, cy + r + 13);
   if (eye === 'right') { ctx.fillText('N', cx - r - 10, cy + 4); ctx.fillText('T', cx + r + 10, cy + 4); }
-  else                 { ctx.fillText('T', cx - r - 10, cy + 4); ctx.fillText('N', cx + r + 10, cy + 4); }
+  else { ctx.fillText('T', cx - r - 10, cy + 4); ctx.fillText('N', cx + r + 10, cy + 4); }
 
   // Degree labels
   ctx.font = '7px Inter, sans-serif';
   ctx.fillStyle = 'rgba(60, 90, 130, 0.5)';
   ctx.textAlign = 'left';
   ctx.fillText('30°', cx + r * 0.25 + 2, cy - 2);
-  ctx.fillText('60°', cx + r * 0.5  + 2, cy - 2);
+  ctx.fillText('60°', cx + r * 0.5 + 2, cy - 2);
 }
 
 // ── Summary badge helper ─────────────────────────────────────
@@ -302,7 +303,7 @@ function getBadge(grid: number[][]): string | null {
     if (x * x + y * y > 1) continue;
     const v = grid[j]?.[i] ?? 0;
     if (x < -0.1) { tL++; if (v > 0.5) bL++; if (y < 0) { tSL++; if (v > 0.5) bSL++; } else { tIL++; if (v > 0.5) bIL++; } }
-    if (x >  0.1) { tR++; if (v > 0.5) bR++; if (y < 0) { tSR++; if (v > 0.5) bSR++; } else { tIR++; if (v > 0.5) bIR++; } }
+    if (x > 0.1) { tR++; if (v > 0.5) bR++; if (y < 0) { tSR++; if (v > 0.5) bSR++; } else { tIR++; if (v > 0.5) bIR++; } }
   }
   const pL = tL ? bL / tL : 0, pR = tR ? bR / tR : 0;
   const pSL = tSL ? bSL / tSL : 0, pIL = tIL ? bIL / tIL : 0;
@@ -342,24 +343,25 @@ function makePerimetryPoints(grid: number[][]): Array<{ vfx: number; vfy: number
 // ── Component ────────────────────────────────────────────────
 
 export const VisualFieldPanel: React.FC<Props> = ({ vfResult, onHover, hoveredStructureRegion }) => {
-  const leftRef  = useRef<HTMLCanvasElement>(null);
+  const leftRef = useRef<HTMLCanvasElement>(null);
   const rightRef = useRef<HTMLCanvasElement>(null);
 
   const [hover, setHover] = useState<VFHoverState>({ vfPoint: null, eye: null });
+  const [viewMode, setViewMode] = useState<'perimetry' | 'real-world'>('perimetry');
   const [perimetry, setPerimetry] = useState<{
     active: boolean;
-    leftPts:  Array<{ vfx: number; vfy: number; seen: boolean; revealed: boolean }>;
+    leftPts: Array<{ vfx: number; vfy: number; seen: boolean; revealed: boolean }>;
     rightPts: Array<{ vfx: number; vfy: number; seen: boolean; revealed: boolean }>;
     idx: number;
   } | null>(null);
 
   // ── Render ───────────────────────────────────────────────
   const render = useCallback(() => {
-    const hoverVF = hover.eye === 'left'  ? (hover.vfPoint ?? null) :
-                    hover.eye === 'right' ? (hover.vfPoint ?? null) : null;
+    const hoverVF = hover.eye === 'left' ? (hover.vfPoint ?? null) :
+      hover.eye === 'right' ? (hover.vfPoint ?? null) : null;
 
     const lCtx = leftRef.current?.getContext('2d');
-    if (lCtx) drawField(lCtx, vfResult.leftEye,  'left',  'OS  Left Eye',  EYE_SZ,
+    if (lCtx) drawField(lCtx, vfResult.leftEye, 'left', 'OS  Left Eye', EYE_SZ,
       hover.eye === 'left' ? hoverVF : null, hoveredStructureRegion,
       perimetry?.active ? perimetry.leftPts : null);
 
@@ -384,7 +386,7 @@ export const VisualFieldPanel: React.FC<Props> = ({ vfResult, onHover, hoveredSt
           setTimeout(() => setPerimetry(null), 1200);
           return { ...prev, active: false };
         }
-        const leftPts  = prev.leftPts.map((p, i) => i === nextIdx ? { ...p, revealed: true } : p);
+        const leftPts = prev.leftPts.map((p, i) => i === nextIdx ? { ...p, revealed: true } : p);
         const rightPts = prev.rightPts.map((p, i) => i === nextIdx ? { ...p, revealed: true } : p);
         return { ...prev, leftPts, rightPts, idx: nextIdx };
       });
@@ -395,7 +397,7 @@ export const VisualFieldPanel: React.FC<Props> = ({ vfResult, onHover, hoveredSt
   const startPerimetry = () => {
     setPerimetry({
       active: true,
-      leftPts:  makePerimetryPoints(vfResult.leftEye),
+      leftPts: makePerimetryPoints(vfResult.leftEye),
       rightPts: makePerimetryPoints(vfResult.rightEye),
       idx: 0,
     });
@@ -405,7 +407,7 @@ export const VisualFieldPanel: React.FC<Props> = ({ vfResult, onHover, hoveredSt
   const getVF = (e: React.MouseEvent, canvas: HTMLCanvasElement): { vfx: number; vfy: number } | null => {
     const rect = canvas.getBoundingClientRect();
     const px = (e.clientX - rect.left) * (EYE_SZ / rect.width);
-    const py = (e.clientY - rect.top)  * (EYE_SZ / rect.height);
+    const py = (e.clientY - rect.top) * (EYE_SZ / rect.height);
     const cx = EYE_SZ / 2, cy = EYE_SZ / 2, r = EYE_SZ * 0.435;
     const vfx = (px - cx) / r;
     const vfy = (py - cy) / r;
@@ -434,34 +436,54 @@ export const VisualFieldPanel: React.FC<Props> = ({ vfResult, onHover, hoveredSt
       <div className="panel-title">Visual Field</div>
 
       <div className="vf-legend">
-        <span className="vf-legend-item"><span className="vf-dot white" />Seeing</span>
-        <span className="vf-legend-item"><span className="vf-dot black" />Scotoma</span>
-        <span className="vf-legend-item"><span className="vf-dot gray"  />Blind spot</span>
-        <button
-          className="perim-btn"
-          onClick={startPerimetry}
-          title="Simulate Humphrey visual field test"
-        >
-          ▶ Simulate Test
-        </button>
+        {viewMode === 'perimetry' ? (
+          <>
+            <span className="vf-legend-item"><span className="vf-dot white" />Seeing</span>
+            <span className="vf-legend-item"><span className="vf-dot black" />Scotoma</span>
+            <span className="vf-legend-item"><span className="vf-dot gray" />Blind spot</span>
+            <button
+              className="perim-btn"
+              onClick={startPerimetry}
+              title="Simulate Humphrey visual field test"
+            >
+              ▶ Simulate Test
+            </button>
+            <button className="view-mode-btn" onClick={() => setViewMode('real-world')}>
+              🌍 Real-World
+            </button>
+          </>
+        ) : (
+          <>
+            <span className="vf-legend-item">Binocular "Patient Vision" Simulator</span>
+            <button className="view-mode-btn" onClick={() => setViewMode('perimetry')}>
+              👁️ Perimetry
+            </button>
+          </>
+        )}
       </div>
 
       {perimetry && !perimetry.active && (
         <div className="perim-complete">Test complete</div>
       )}
 
-      <div className="vf-eyes">
-        <div className="vf-eye-wrap">
-          <canvas ref={leftRef} width={EYE_SZ} height={EYE_SZ} className="vf-canvas"
-            onMouseMove={handleMove('left')} onMouseLeave={handleLeave} />
-          {lBadge && <div className="vf-badge">{lBadge}</div>}
+      {viewMode === 'perimetry' ? (
+        <div className="vf-eyes">
+          <div className="vf-eye-wrap">
+            <canvas ref={leftRef} width={EYE_SZ} height={EYE_SZ} className="vf-canvas"
+              onMouseMove={handleMove('left')} onMouseLeave={handleLeave} />
+            {lBadge && <div className="vf-badge">{lBadge}</div>}
+          </div>
+          <div className="vf-eye-wrap">
+            <canvas ref={rightRef} width={EYE_SZ} height={EYE_SZ} className="vf-canvas"
+              onMouseMove={handleMove('right')} onMouseLeave={handleLeave} />
+            {rBadge && <div className="vf-badge">{rBadge}</div>}
+          </div>
         </div>
-        <div className="vf-eye-wrap">
-          <canvas ref={rightRef} width={EYE_SZ} height={EYE_SZ} className="vf-canvas"
-            onMouseMove={handleMove('right')} onMouseLeave={handleLeave} />
-          {rBadge && <div className="vf-badge">{rBadge}</div>}
+      ) : (
+        <div className="rw-container">
+          <RealWorldView leftEye={vfResult.leftEye} rightEye={vfResult.rightEye} />
         </div>
-      </div>
+      )}
 
       {hover.vfPoint && (
         <div className="vf-hover-info">
