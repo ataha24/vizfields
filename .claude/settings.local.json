@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(curl -s http://localhost:5173 | grep -c \"VizFields\")",
+      "WebFetch(domain:www.ncbi.nlm.nih.gov)",
+      "WebFetch(domain:eyewiki.aao.org)",
+      "WebFetch(domain:www.uptodate.com)",
+      "WebFetch(domain:www.aafp.org)",
+      "WebFetch(domain:pmc.ncbi.nlm.nih.gov)",
+      "WebFetch(domain:eyewiki.org)",
+      "WebFetch(domain:www.aaopt.org)",
+      "WebFetch(domain:emedicine.medscape.com)",
+      "WebFetch(domain:www.merckmanuals.com)",
+      "WebFetch(domain:radiopaedia.org)",
+      "WebFetch(domain:www.neurology.org)",
+      "WebFetch(domain:journals.lww.com)",
+      "WebFetch(domain:www.nanosweb.org)",
+      "WebFetch(domain:www.sciencedirect.com)",
+      "WebFetch(domain:continuum.aan.com)",
+      "WebFetch(domain:teachmeanatomy.info)",
+      "WebFetch(domain:www.kenhub.com)",
+      "WebFetch(domain:www.aao.org)",
+      "WebFetch(domain:www.lecturio.com)",
+      "WebFetch(domain:www.osmosis.org)",
+      "WebFetch(domain:www.amboss.com)",
+      "WebFetch(domain:www.visualfielddefects.com)",
+      "WebFetch(domain:www.msdmanuals.com)",
+      "WebFetch(domain:eyerounds.org)",
+      "WebFetch(domain:eyerounds.uiowa.edu)",
+      "WebFetch(domain:casemed.case.edu)",
+      "Bash(git init:*)"
+    ]
+  }
+}
