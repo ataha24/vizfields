@@ -1338,3 +1338,352 @@ body,
     display: none;
   }
 }
+
+/* ============================================================
+   INO / Ocular Motor Module
+   ============================================================ */
+
+/* Module switcher buttons in header */
+.module-switcher {
+  display: flex;
+  gap: 4px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.module-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-mid);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+
+.module-btn:hover {
+  background: rgba(255,255,255,0.07);
+  color: var(--text-hi);
+}
+
+.module-btn.active {
+  background: rgba(0,212,255,0.15);
+  color: var(--cyan);
+  font-weight: 600;
+}
+
+/* Root layout for INO module (matches .app-main 3-panel layout) */
+.ino-root {
+  position: absolute;
+  inset: 0;
+  pointer-events: none; /* panels individually get pointer-events */
+}
+
+.ino-root > .panel {
+  pointer-events: all;
+}
+
+/* Left panel override for INO */
+.ino-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 12px;
+}
+
+/* Center — transparent bg, SVG fills it */
+.ino-center {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+/* Right panel */
+.ino-right {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Status banner */
+.ino-status {
+  margin: 8px 12px 4px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,212,255,0.2);
+  background: rgba(0,212,255,0.05);
+  font-size: 11.5px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--cyan);
+  flex-shrink: 0;
+}
+
+.ino-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: pulse 2s infinite;
+}
+
+/* Eye wrap */
+.ino-eye-wrap {
+  padding: 10px 8px 6px;
+  flex-shrink: 0;
+}
+
+/* Control groups */
+.ino-control-group {
+  padding: 8px 12px 4px;
+  flex-shrink: 0;
+}
+
+.ino-control-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+
+.ino-btn-row {
+  display: flex;
+  gap: 5px;
+}
+
+.ino-btn-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ino-btn {
+  background: rgba(20,35,65,0.7);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--text-mid);
+  font-family: inherit;
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.18s;
+  text-align: left;
+  flex: 1;
+}
+
+.ino-btn:hover {
+  background: rgba(30,50,90,0.9);
+  color: var(--text-hi);
+  border-color: rgba(255,255,255,0.15);
+}
+
+.ino-btn.active {
+  background: rgba(0,212,255,0.12);
+  border-color: rgba(0,212,255,0.35);
+  color: var(--cyan);
+  font-weight: 600;
+}
+
+.ino-tip {
+  margin: 8px 12px 0;
+  padding: 7px 10px;
+  background: rgba(240,160,64,0.06);
+  border: 1px solid rgba(240,160,64,0.15);
+  border-radius: 6px;
+  font-size: 10.5px;
+  color: var(--amber);
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+/* Clinical panel */
+.ino-clinical {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.ino-tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  background: rgba(0,0,0,0.2);
+  flex-shrink: 0;
+}
+
+.ino-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-mid);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 9px 14px;
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+
+.ino-tab:hover {
+  color: var(--text-hi);
+  background: rgba(255,255,255,0.03);
+}
+
+.ino-tab.active {
+  color: var(--cyan);
+  border-bottom-color: var(--cyan);
+  background: rgba(0,212,255,0.05);
+}
+
+.ino-clinical-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 14px;
+}
+
+.ino-text-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ino-section-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  opacity: 0.7;
+  margin: 10px 0 6px;
+}
+
+.ino-section-label:first-child {
+  margin-top: 0;
+}
+
+.ino-para {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-hi);
+  opacity: 0.82;
+}
+
+.ino-bullet {
+  padding-left: 4px;
+  color: rgba(180,210,240,0.75);
+}
+
+/* Cases */
+.ino-cases {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ino-case-card {
+  background: rgba(10,20,45,0.7);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 11px 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.ino-case-title {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--amber);
+}
+
+.ino-pearl {
+  font-size: 11px;
+  line-height: 1.55;
+  color: rgba(160,200,240,0.75);
+  background: rgba(0,212,255,0.05);
+  border-left: 2px solid rgba(0,212,255,0.3);
+  padding: 6px 9px;
+  border-radius: 0 5px 5px 0;
+}
+
+.ino-pearl-label {
+  font-weight: 700;
+  color: var(--cyan);
+  margin-right: 5px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ino-load-btn {
+  background: rgba(0,212,255,0.08);
+  border: 1px solid rgba(0,212,255,0.2);
+  color: var(--cyan);
+  font-family: inherit;
+  font-size: 11px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.18s;
+  align-self: flex-start;
+}
+
+.ino-load-btn:hover {
+  background: rgba(0,212,255,0.15);
+}
+
+/* Nystagmus animation for abducting eye */
+@keyframes ino-nystagmus {
+  0%   { transform: translateX(0px); }
+  20%  { transform: translateX(-5px); }    /* slow drift back */
+  21%  { transform: translateX(4px); }     /* fast jerk out */
+  40%  { transform: translateX(-5px); }
+  41%  { transform: translateX(4px); }
+  60%  { transform: translateX(-5px); }
+  61%  { transform: translateX(4px); }
+  80%  { transform: translateX(-5px); }
+  81%  { transform: translateX(4px); }
+  100% { transform: translateX(0px); }
+}
+
+/* Mobile responsive for INO */
+@media (max-width: 900px) {
+  .ino-root {
+    position: static;
+  }
+  .ino-left,
+  .ino-right {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+  }
+  .ino-center {
+    position: static !important;
+    width: 100% !important;
+    min-height: 400px;
+  }
+}

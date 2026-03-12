@@ -8,6 +8,7 @@ import type { ClinicalCase } from './types';
 import { PathwayPanel } from './components/PathwayPanel';
 import { VisualFieldPanel } from './components/VisualFieldPanel';
 import { ReasoningPanel } from './components/ReasoningPanel';
+import { INOPanel } from './components/INOPanel';
 import { computeVisualField, computeDeficitSummary } from './engine/lesionEngine';
 import { hitTestStructure } from './engine/pathwayModel';
 import { traceFiber, getStructureVFRegion } from './engine/fiberTracer';
@@ -59,8 +60,11 @@ function hashToLesion(): Lesion | null {
   };
 }
 
+type ActiveModule = 'vf' | 'ino';
+
 export const App: React.FC = () => {
   // ── Core state ───────────────────────────────────────────
+  const [activeModule, setActiveModule] = useState<ActiveModule>('vf');
   const [lesion, setLesion] = useState<Lesion | null>(() => hashToLesion());
   const [mode, setMode] = useState<AppMode>('explore');
   const [activeCase, setActiveCase] = useState<ClinicalCase | null>(null);
@@ -151,7 +155,22 @@ export const App: React.FC = () => {
       <header className="app-header">
         <div className="header-left">
           <div className="logo">VizFields</div>
-          <div className="logo-sub">Visual Pathway Simulator</div>
+          <div className="logo-sub">Neuroanatomy Simulator</div>
+        </div>
+
+        <div className="module-switcher">
+          <button
+            className={`module-btn ${activeModule === 'vf' ? 'active' : ''}`}
+            onClick={() => setActiveModule('vf')}
+          >
+            Visual Pathways
+          </button>
+          <button
+            className={`module-btn ${activeModule === 'ino' ? 'active' : ''}`}
+            onClick={() => setActiveModule('ino')}
+          >
+            Ocular Motor
+          </button>
         </div>
 
         <div className="header-center">
@@ -181,43 +200,52 @@ export const App: React.FC = () => {
         </div>
       </header>
 
-      {/* ── Three panels ─────────────────────────────────────── */}
+      {/* ── Module content ────────────────────────────────────── */}
       <main className="app-main">
-        <section className="panel panel-left">
-          <VisualFieldPanel
-            vfResult={vfResult}
-            onHover={handleVFHover}
-            hoveredStructureRegion={hoveredStructureRegion}
-          />
-        </section>
+        {activeModule === 'vf' ? (
+          <>
+            <section className="panel panel-left">
+              <VisualFieldPanel
+                vfResult={vfResult}
+                onHover={handleVFHover}
+                hoveredStructureRegion={hoveredStructureRegion}
+              />
+            </section>
 
-        <section className="panel panel-center">
-          <PathwayPanel
-            lesion={lesion}
-            onLesionChange={handleLesionChange}
-            highlightedStructures={highlightedStructures}
-            fiberTrace={fiberTrace}
-            vfHover={vfHover}
-          />
-        </section>
+            <section className="panel panel-center">
+              <PathwayPanel
+                lesion={lesion}
+                onLesionChange={handleLesionChange}
+                highlightedStructures={highlightedStructures}
+                fiberTrace={fiberTrace}
+                vfHover={vfHover}
+              />
+            </section>
 
-        <section className="panel panel-right">
-          <ReasoningPanel
-            summary={summary}
-            lesion={lesion}
-            mode={mode}
-            onModeChange={setMode}
-            onCaseSelect={handleCaseSelect}
-            onClearLesion={handleClearLesion}
-            activeCase={activeCase}
-          />
-        </section>
+            <section className="panel panel-right">
+              <ReasoningPanel
+                summary={summary}
+                lesion={lesion}
+                mode={mode}
+                onModeChange={setMode}
+                onCaseSelect={handleCaseSelect}
+                onClearLesion={handleClearLesion}
+                activeCase={activeCase}
+              />
+            </section>
+          </>
+        ) : (
+          <INOPanel />
+        )}
       </main>
 
       <footer className="app-footer">
-        <span>VizFields — Interactive Visual Pathway Simulator</span>
+        <span>VizFields — Interactive Neuroanatomy Simulator</span>
         <span className="footer-sep">|</span>
-        <span>Hover visual field to trace fiber · Drag lesion edge to resize</span>
+        {activeModule === 'vf'
+          ? <span>Hover visual field to trace fiber · Drag lesion edge to resize</span>
+          : <span>Click any nerve/pathway to place a lesion · Multiple lesions supported · Load cases for clinical vignettes</span>
+        }
         <span className="footer-sep">|</span>
         <span>For education only</span>
       </footer>

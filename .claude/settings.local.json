@@ -42,7 +42,9 @@
       "Bash(find /Users/alaataha/.claude/projects/-Users-alaataha-projects-claude-vizfields/ -name \"*.json\" 2>/dev/null | head -5)",
       "Bash(cat \"/Users/alaataha/.claude/projects/-Users-alaataha-projects-claude-vizfields/e339a741-ef7f-4d23-b5d2-e6de0a7d839c/tool-results/toolu_011zcPhW21DhJGuvX6h2LJUd.json\" | python3 -c \"import json,sys; data=json.load\\(sys.stdin\\); print\\(data[0]['text']\\)\" 2>/dev/null | head -500)",
       "Bash(wc -c \"/Users/alaataha/.claude/projects/-Users-alaataha-projects-claude-vizfields/e339a741-ef7f-4d23-b5d2-e6de0a7d839c/tool-results/bpkbmwx23.txt\" && python3 -c \"\nwith open\\('/Users/alaataha/.claude/projects/-Users-alaataha-projects-claude-vizfields/e339a741-ef7f-4d23-b5d2-e6de0a7d839c/tool-results/bpkbmwx23.txt'\\) as f:\n    text = f.read\\(\\)\nprint\\(text[:8000]\\)\nprint\\('---MIDDLE---'\\)\nprint\\(text[20000:28000]\\)\nprint\\('---END---'\\)\nprint\\(text[-6000:]\\)\n\")",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(npm run:*)",
+      "Bash(curl -s http://localhost:5173/vizfields/ | head -5)"
     ]
   }
 }
